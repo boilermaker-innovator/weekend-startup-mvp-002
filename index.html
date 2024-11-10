@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Weekend Teaser Creator</title>
+    <style>
+        body { 
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #006838;
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+        .section-title {
+            color: #006838;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 18px;
+        }
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #006838;
+            box-shadow: 0 0 0 2px rgba(0,104,56,0.1);
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .preview-btn {
+            background: #006838;
+            color: white;
+            flex: 2;
+        }
+        .preview-btn:hover {
+            background: #005730;
+        }
+        .test-btn, .clear-btn {
+            background: #f0f2f5;
+            color: #333;
+            flex: 1;
+        }
+        .test-btn:hover, .clear-btn:hover {
+            background: #e4e6e9;
+        }
+        .preview-section {
+            width: 400px;
+            margin: 0 auto;
+        }
+        .preview-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #006838;
+            font-weight: 500;
+        }
+        .preview-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 3px solid #006838;
+            border-radius: 12px 12px 0 0;
+        }
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .header-text {
+            color: #006838;
+        }
+        .header-text h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .header-text p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+        .meta-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+        .tag {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .price-tag {
+            background: #006838;
+            color: white;
+        }
+        .date-tag {
+            background: #f0f2f5;
+            color: #006838;
+        }
+        .content-area {
+            border: 3px solid #006838;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+        .tab-bar {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            color: #006838;
+            border-bottom: 3px solid #006838;
+            font-weight: 500;
+        }
+        .tab-content {
+            padding: 20px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-content p {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+            font-size: 14px;
+            color: #333;
+        }
+        .tab-content p:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #006838;
+        }
+        .ticket-button {
+            display: block;
+            margin: 15px;
+            padding: 12px;
+            background: #006838;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+        .ticket-button:hover {
+            background: #005730;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h1>Startup Weekend Teaser Creator</h1>
+            
+            <form id="teaserForm">
+                <h3 class="section-title">Header Information</h3>
+                <div class="input-group">
+                    <label>Title</label>
+                    <input type="text" id="title" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Organization</label>
+                    <input type="text" id="organization" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" id="location" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Logo URL</label>
+                    <input type="url" id="logoUrl" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Price</label>
+                    <input type="text" id="price" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Dates</label>
+                    <input type="text" id="dates" required>
+                </div>
+
+                <h3 class="section-title">Tab Content</h3>
+                <div class="input-group">
+                    <label>Event Details (one point per line)</label>
+                    <textarea id="event" required placeholder="Enter each point on a new line"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label>Schedule (one point per line)</label>
+                    <textarea id="schedule" required placeholder="Enter each point on a new line"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label>Experience (one point per line)</label>
+                    <textarea id="experience" required placeholder="Enter each point on a new line"></textarea>
+                </div>
+
+                <h3 class="section-title">Button Settings</h3>
+                <div class="input-group">
+                    <label>Ticket URL</label>
+                    <input type="url" id="ticketUrl" required>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="preview-btn">Generate Preview</button>
+                    <button type="button" class="test-btn" id="prefillBtn">Test Data</button>
+                    <button type="button" class="clear-btn" id="clearBtn">Clear</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="preview-section">
+            <h2 class="preview-header">Preview</h2>
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 0;
+        let rotationInterval;
+
+        const testData = {
+            title: "Startup Weekend: Student Edition",
+            organization: "Spacecubed",
+            location: "Riff, Perth",
+            logoUrl: "https://i.ibb.co/nfwGbtw/IMG-1707.jpg",
+            event: "54-hour entrepreneurial sprint for students\nTransform ideas into startups\nExpert mentorship from industry leaders\nOpen to all university students (18+)\nNetwork with future co-founders",
+            schedule: "Friday 5PM-8PM: Networking & Pitches\nSaturday 9AM-7PM: Build & Develop\nSunday 9AM-7PM: Prototype & Present\nSunday 4PM-7PM: Final Pitches\nMeals & refreshments included",
+            experience: "Hands-on startup experience\nProfessional mentorship\nBusiness model development\nMarket validation workshops\nPitch to expert judges\nBuild lasting connections",
+            price: "$20",
+            dates: "Nov 15-17",
+            ticketUrl: "https://events.humanitix.com/startup-weekend-student-edition"
+        };
+
+        function prefillForm() {
+            Object.keys(testData).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) element.value = testData[key];
+            });
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const formData = {};
+            Object.keys(testData).forEach(key => {
+                formData[key] = document.getElementById(key)?.value || '';
+            });
+
+            const points = content => content.split('\n')
+                .filter(point => point.trim())
+                .map(point => `<p>${point.trim()}</p>`)
+                .join('');
+
+            const previewHtml = `
+                <div class="preview-card">
+                    <div class="header">
+                        <div class="logo-circle">
+                            <img src="${formData.logoUrl}" alt="Logo" crossorigin="anonymous">
+                        </div>
+                        <div class="header-text">
+                            <h2>${formData.title}</h2>
+                            <p>${formData.organization} - ${formData.location}</p>
+                            <div class="meta-tags">
+                                <span class="tag price-tag">${formData.price}</span>
+                                <span class="tag date-tag">${formData.dates}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-area">
+                        <div class="tab-bar">
+                            <button type="button" class="tab-button active" onclick="switchTab(0)">Event</button>
+                            <button type="button" class="tab-button" onclick="switchTab(1)">Schedule</button>
+                            <button type="button" class="tab-button" onclick="switchTab(2)">Experience</button>
+                        </div>
+                        
+                        <div class="tab-content active">${points(formData.event)}</div>
+                        <div class="tab-content">${points(formData.schedule)}</div>
+                        <div class="tab-content">${points(formData.experience)}</div>
+                        
+                        <a href="${formData.ticketUrl}" class="ticket-button" target="_blank">Get Your Ticket</a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('preview').innerHTML = previewHtml;
+            startRotation();
+        }
+
+        function switchTab(index) {
+            currentTab = index;
+            document.querySelectorAll('.tab-button').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+        }
+
+        function startRotation() {
+            clearInterval(rotationInterval);
+            rotationInterval = setInterval(() => {
+                currentTab = (currentTab + 1) % 3;
+                switchTab(currentTab);
+            }, 5000);
+        }
+
+        document.getElementById('teaserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updatePreview();
+        });
+
+        document.getElementById('prefillBtn').addEventListener('click', prefillForm);
+        
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            document.getElementById('teaserForm').reset();
+            document.getElementById('preview').innerHTML = '';
+            clearInterval(rotationInterval);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.preview-card')) {
+                clearInterval(rotationInterval);
+            }
+        });
+
+        document.addEventListener('mouseleave', function(e) {
+            if (e.target.closest('.preview-card') && document.getElementById('preview').innerHTML) {
+                startRotation();
+            }
+        });
+    </script>
+</body>
+</html>
