@@ -436,6 +436,12 @@
                 startRotation();
             }
         });
+        
+        // Auto-fill form on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            prefillForm();
+            updatePreview();
+        });
     </script>
 </body>
 </html>
